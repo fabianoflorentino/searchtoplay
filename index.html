@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SearchToPlay — Descubra o que jogar agora</title>
+  <meta name="description" content="O SearchToPlay cruza sua biblioteca, seu tempo, seu humor e seu hardware para dizer o que jogar em 10 segundos — do que você já tem. Open source, sem anúncios.">
+  <meta name="theme-color" content="#05060a">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SearchToPlay — Descubra o que jogar agora">
+  <meta property="og:description" content="Uma camada de decisão sobre a sua biblioteca. Não é loja, não é comparador de preços.">
+  <meta property="og:image" content="https://fabianoflorentino.github.io/searchtoplay/assets/img/og-image.png">
+  <meta property="og:url" content="https://fabianoflorentino.github.io/searchtoplay/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SearchToPlay — Descubra o que jogar agora">
+  <meta name="twitter:description" content="O jogo certo, agora — com o que você já tem.">
+  <meta name="twitter:image" content="https://fabianoflorentino.github.io/searchtoplay/assets/img/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <noscript>
+    <style>
+      .reveal { opacity: 1; transform: none; }
+      .funnel-step { width: var(--w); min-width: 190px; }
+      .rec-bars i::after, .cc-bar i, .scenario-bar i { width: var(--v); }
+    </style>
+  </noscript>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <div class="cursor-glow" id="cursor-glow" aria-hidden="true"></div>
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="SearchToPlay — início">
+      <img src="assets/img/logo.svg" alt="" width="38" height="38">
+      <span class="brand-text">SEARCH<span class="accent">TO</span>PLAY<span class="brand-cursor">_</span></span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="nav" aria-label="Navegação principal">
+      <a href="#problema">Problema</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#creator">Creator Mode</a>
+      <a href="#entregas">Entregas</a>
+      <a href="#roadmap">Roadmap</a>
+      <a class="nav-cta" href="#beta" data-beta>Entrar na lista</a>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <p class="eyebrow"><span class="pulse-dot"></span> // SEARCH TO PLAY // PROTOCOLO 0.1</p>
+        <h1 class="hero-title">
+          <span class="glitch" data-text="O JOGO CERTO.">O JOGO CERTO.</span><br>
+          <span class="neon">AGORA.</span>
+        </h1>
+        <p class="hero-sub">
+          O SearchToPlay cruza sua <strong>biblioteca</strong>, seu <strong>tempo</strong>, seu <strong>humor</strong> e seu <strong>hardware</strong> para dizer o que jogar em 10 segundos — do que você já tem.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#beta" data-beta>ENTRAR NA LISTA <span aria-hidden="true">→</span></a>
+          <a class="btn btn-ghost" href="#como-funciona">COMO FUNCIONA <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-stats" aria-label="Sinais do protocolo">
+          <div><strong data-count="10" data-suffix="s">0s</strong><span>para decidir</span></div>
+          <div><strong data-count="5">0</strong><span>sinais analisados</span></div>
+          <div><strong>0</strong><span>viés de venda</span></div>
+          <div><strong>100%</strong><span>open source</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="t-dot red"></span><span class="t-dot amber"></span><span class="t-dot green"></span>
+            <em>stp://diagnostic</em>
+            <span class="t-live">LIVE</span>
+          </div>
+          <div class="terminal-output" id="terminal-output"></div>
+        </div>
+        <div class="floating-card card-a">
+          <span class="fc-label">MATCH</span>
+          <strong>94%</strong>
+          <span class="fc-sub">contexto + histórico</span>
+        </div>
+        <div class="floating-card card-b">
+          <span class="fc-label">SESSÃO</span>
+          <strong>35 MIN</strong>
+          <span class="fc-sub">coop local · 2 players</span>
+        </div>
+        <div class="floating-card card-c">
+          <span class="fc-label">STATUS</span>
+          <strong>RODA</strong>
+          <span class="fc-sub">no seu hardware</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>BIBLIOTECA STEAM <i>✦</i> DECISÃO EM 10 SEGUNDOS <i>✦</i> CROSS-PLATFORM <i>✦</i> OPEN SOURCE <i>✦</i> SEM ANÚNCIOS <i>✦</i> SEM VIÉS DE VENDA <i>✦</i> CREATOR MODE <i>✦</i></span>
+        <span>BIBLIOTECA STEAM <i>✦</i> DECISÃO EM 10 SEGUNDOS <i>✦</i> CROSS-PLATFORM <i>✦</i> OPEN SOURCE <i>✦</i> SEM ANÚNCIOS <i>✦</i> SEM VIÉS DE VENDA <i>✦</i> CREATOR MODE <i>✦</i></span>
+      </div>
+    </div>
+
+    <!-- PROBLEMA -->
+    <section class="section" id="problema">
+      <div class="section-head reveal">
+        <p class="eyebrow">// DIAGNÓSTICO</p>
+        <h2>Ter 300 jogos e não saber <span class="neon-magenta">o que jogar</span>.</h2>
+        <p class="section-sub">O gargalo não é ter jogos. É decidir qual jogar agora.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card reveal">
+          <span class="card-index">01</span>
+          <h3>Biblioteca grande, tempo curto</h3>
+          <p>Anos de promoções. Na hora de jogar, a decisão trava — e você abre o mesmo de sempre.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">02</span>
+          <h3>A loja quer vender</h3>
+          <p>A recomendação é um funil de compra. Ajuda a comprar o próximo lançamento, não a escolher o que já é seu.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">03</span>
+          <h3>A IA não te conhece</h3>
+          <p>IA genérica pesquisa fatos públicos, mas não acessa sua biblioteca, hardware, tempo ou o grupo.</p>
+        </article>
+      </div>
+      <div class="statement reveal">
+        <span class="statement-tag">/ INSIGHT</span>
+        <p>O gargalo não é ter jogos. É <strong>decidir qual jogar agora</strong>.</p>
+        <span class="statement-sub">É exatamente aí que a Steam, a IA genérica e as planilhas param.</span>
+      </div>
+    </section>
+
+    <!-- IDEIA -->
+    <section class="section" id="ideia">
+      <div class="section-head reveal">
+        <p class="eyebrow">// A IDEIA</p>
+        <h2>Um <span class="neon">search to play</span> personalizado.</h2>
+        <p class="section-sub">Contexto + biblioteca real + histórico → 1 a 3 jogos, com o porquê e um botão para abrir.</p>
+      </div>
+      <div class="idea-grid">
+        <div class="flow reveal">
+          <div class="flow-step">
+            <span class="flow-num">01</span>
+            <div>
+              <h3>Você diz</h3>
+              <p>“Tenho 40 minutos, quero algo leve, pra jogar com um amigo.”</p>
+              <div class="chips"><span>40 min</span><span>leve</span><span>coop</span><span>PC</span></div>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">02</span>
+            <div>
+              <h3>O motor cruza</h3>
+              <p>Biblioteca, playtime, jogos abandonados, hardware, humor e o que o grupo possui.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-num">03</span>
+            <div>
+              <h3>Você recebe</h3>
+              <p>1 a 3 jogos com justificativa e ação. A decisão termina em <code>steam://</code>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="recommendation reveal" aria-label="Exemplo de recomendação">
+          <div class="rec-top">
+            <span class="rec-label">RECOMENDAÇÃO // 01</span>
+            <span class="rec-match">MATCH 94%</span>
+          </div>
+          <div class="rec-title">Jogo X</div>
+          <div class="rec-meta">35 min de sessão · coop · roda no seu PC</div>
+          <p class="rec-reason">“Curto, coop e parece com o que você terminou no mês passado.”</p>
+          <div class="rec-bars">
+            <div><span>Contexto</span><i style="--v:96%"></i></div>
+            <div><span>Afinidade</span><i style="--v:91%"></i></div>
+            <div><span>Hardware</span><i style="--v:100%"></i></div>
+          </div>
+          <div class="rec-actions">
+            <span class="btn btn-primary btn-small">JOGAR AGORA <span aria-hidden="true">→</span></span>
+            <span class="rec-link">por que este?</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO FUNCIONA -->
+    <section class="section" id="como-funciona">
+      <div class="section-head reveal">
+        <p class="eyebrow">// PROTOCOLO</p>
+        <h2>Três sinais, uma decisão.</h2>
+      </div>
+      <div class="grid-3">
+        <article class="card reveal">
+          <span class="card-index">01</span>
+          <h3>Contexto do momento</h3>
+          <p>Tempo disponível, humor, energia, com quem vai jogar e se quer continuar ou começar algo novo.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">02</span>
+          <h3>Sua biblioteca real</h3>
+          <p>O que você possui, já jogou, abandonou, terminou e o que roda no seu hardware.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">03</span>
+          <h3>Motor explicável</h3>
+          <p>Cruza os sinais, ranqueia e justifica a escolha. Sem caixa-preta, sem viés de venda.</p>
+        </article>
+      </div>
+      <div class="result-bar reveal">
+        <span class="result-icon">→</span>
+        <p><strong>Resultado:</strong> “Jogue este, por este motivo, agora.”</p>
+        <span class="result-sub">com botão para instalar/abrir via steam://</span>
+      </div>
+    </section>
+
+    <!-- PERSONAS -->
+    <section class="section" id="para-quem">
+      <div class="section-head reveal">
+        <p class="eyebrow">// PARA QUEM</p>
+        <h2>Feito para o backlog. Útil desde o primeiro jogo.</h2>
+      </div>
+      <div class="grid-4">
+        <article class="card reveal">
+          <span class="card-index">ICP</span>
+          <h3>Backlog pesado</h3>
+          <p>Adulto 25–45, 100+ jogos, 10+ anos de Steam, pouco tempo e renda. É quem paga.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">FREE</span>
+          <h3>Catálogo modesto</h3>
+          <p>5–30 jogos. Descoberta por gosto, jogos grátis, demos e assinaturas. Sem barreira.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">FASE 2</span>
+          <h3>Sem biblioteca</h3>
+          <p>Console ou free-to-play. Descoberta e disponibilidade, sem exigir importação.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">CREATOR</span>
+          <h3>Criadores de gameplay</h3>
+          <p>Pauta, série e grupo. Um modo pensado para quem grava conteúdo.</p>
+        </article>
+      </div>
+      <p class="microcopy reveal">Ninguém é barrado por ter poucos jogos. A cota é por uso e conveniência — nunca por tamanho de biblioteca.</p>
+    </section>
+
+    <!-- CREATOR MODE -->
+    <section class="section section-creator" id="creator">
+      <div class="creator-grid">
+        <div class="creator-copy reveal">
+          <p class="eyebrow">// CREATOR MODE</p>
+          <h2>O job do criador: <span class="neon-magenta">o que gravar</span> que renda série.</h2>
+          <p class="section-sub">Não é “o que jogar”. É “o que gravar que funcione para o meu canal e o meu grupo”.</p>
+          <ul class="feature-list">
+            <li><span>01</span> Pauta com <strong>content-fit</strong> — score, episódios, por que agora e riscos.</li>
+            <li><span>02</span> <strong>Planejador de série</strong> — duração, ritmo e runway de conteúdo.</li>
+            <li><span>03</span> <strong>Matriz de grupo/coop</strong> — quem possui, quem roda, crossplay.</li>
+            <li><span>04</span> <strong>Radar de timing</strong> — subindo vs. saturado (fase 2).</li>
+            <li><span>05</span> <strong>Export</strong> para Notion/Calendar, sem trocar o fluxo.</li>
+          </ul>
+          <p class="creator-note">Perfis: retro/desafio, horror/reação, variedade/grupo, história. O score muda por nicho.</p>
+        </div>
+        <div class="creator-console reveal" aria-label="Exemplo de pauta para criador">
+          <div class="terminal-bar">
+            <span class="t-dot red"></span><span class="t-dot amber"></span><span class="t-dot green"></span>
+            <em>stp://creator/plan</em>
+          </div>
+          <div class="cc-row"><span>NICHO</span><strong>co-op / variedade</strong></div>
+          <div class="cc-row"><span>EPISÓDIO</span><strong>40 min · 2×/semana</strong></div>
+          <div class="cc-row"><span>GRUPO</span><strong>4 players · todos possuem</strong></div>
+          <div class="cc-divider"></div>
+          <div class="cc-score">
+            <span class="cc-label">CONTENT-FIT</span>
+            <strong>87<span>/100</span></strong>
+          </div>
+          <div class="cc-bar"><i style="--v:87%"></i></div>
+          <ul class="cc-list">
+            <li><b>+</b> 8 episódios estimados</li>
+            <li><b>+</b> coop local e online</li>
+            <li><b>+</b> sessões curtas, boa retenção</li>
+            <li class="risk"><b>!</b> tutorial de 1h — ruim para o ep. 1</li>
+          </ul>
+          <div class="cc-foot">RUNWAY: 4 semanas de conteúdo</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ENTREGAS -->
+    <section class="section" id="entregas">
+      <div class="section-head reveal">
+        <p class="eyebrow">// ENTREGAS</p>
+        <h2>O que você <span class="neon">recebe</span>.</h2>
+        <p class="section-sub">Uma decisão melhor, com o que você já tem — sem ruído, sem loja e sem lista infinita.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card reveal">
+          <span class="card-index">01</span>
+          <h3>Decisão em ~10 segundos</h3>
+          <p>1 a 3 jogos, com o motivo da escolha. Não uma lista de 300 para filtrar.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">02</span>
+          <h3>Backlog priorizado</h3>
+          <p>Você sabe por onde começar, o que deixar para depois e o que combina com o momento.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">03</span>
+          <h3>Contexto real</h3>
+          <p>Tempo disponível, humor, energia, com quem vai jogar e o que roda no seu hardware.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">04</span>
+          <h3>Explicação, não caixa-preta</h3>
+          <p>Cada recomendação vem com o porquê. Você pode discordar e ajustar o rumo.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">05</span>
+          <h3>Coop sem fricção</h3>
+          <p>O que o grupo todo possui, o que roda para cada um e o que dá para jogar junto.</p>
+        </article>
+        <article class="card reveal">
+          <span class="card-index">06</span>
+          <h3>Privacidade por padrão</h3>
+          <p>Dados locais, self-hosted opcional e nenhuma telemetria. A biblioteca é sua.</p>
+        </article>
+      </div>
+      <p class="microcopy reveal">Open source · sem anúncios · sem venda de dados · sem lock-in.</p>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="section" id="roadmap">
+      <div class="section-head reveal">
+        <p class="eyebrow">// ROADMAP</p>
+        <h2>Do zero ao beta em poucas etapas.</h2>
+        <p class="section-sub">Sem pressa de crescimento. Primeiro provar valor, depois cobrar.</p>
+      </div>
+      <ol class="roadmap">
+        <li class="reveal"><span class="rm-num">01</span><h3>Validação</h3><p>formulário + entrevistas</p></li>
+        <li class="reveal"><span class="rm-num">02</span><h3>MVP local</h3><p>catálogo + busca + backlog</p></li>
+        <li class="reveal"><span class="rm-num">03</span><h3>Beta fechado</h3><p>20–100 usuários</p></li>
+        <li class="reveal"><span class="rm-num">04</span><h3>Nuvem paga</h3><p>auth, sync, pagamentos</p></li>
+        <li class="reveal"><span class="rm-num">05</span><h3>Coop e mobile</h3><p>grupo + push</p></li>
+        <li class="reveal"><span class="rm-num">06</span><h3>Creator Mode</h3><p>pauta + série + grupo</p></li>
+      </ol>
+    </section>
+
+    <!-- BETA / VALIDAÇÃO -->
+    <section class="section section-beta" id="beta">
+      <div class="beta-grid">
+        <div class="beta-copy reveal">
+          <p class="eyebrow">// PRÓXIMO PASSO</p>
+          <h2>Ouvir <span class="neon">200 jogadores</span> e <span class="neon-magenta">20 criadores</span> antes de escrever código.</h2>
+          <p class="section-sub">Validar alcance, dor e utilidade. Depois construir o MVP em 6 a 8 semanas.</p>
+          <div class="beta-actions">
+            <a class="btn btn-primary" href="#beta" data-beta>QUERO PARTICIPAR <span aria-hidden="true">→</span></a>
+            <a class="btn btn-ghost" href="#como-funciona">COMO FUNCIONA <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="beta-note" id="beta-note">O link do formulário público entra aqui em breve.</p>
+        </div>
+        <div class="beta-stats reveal">
+          <div class="beta-stat"><strong>200</strong><span>respostas</span></div>
+          <div class="beta-stat"><strong>30%</strong><span>com 100+ jogos</span></div>
+          <div class="beta-stat"><strong>20%</strong><span>topam o beta</span></div>
+          <div class="beta-stat"><strong>10%</strong><span>usariam toda semana</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-top">
+      <a class="brand" href="#top" aria-label="SearchToPlay — início">
+        <img src="assets/img/logo.svg" alt="" width="32" height="32">
+        <span class="brand-text">SEARCH<span class="accent">TO</span>PLAY<span class="brand-cursor">_</span></span>
+      </a>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="https://github.com/fabianoflorentino/searchtoplay" target="_blank" rel="noopener" data-repo>GitHub</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#creator">Creator Mode</a>
+        <a href="PLANO.md" target="_blank" rel="noopener">Plano</a>
+        <a href="APRESENTACAO.pdf" target="_blank" rel="noopener">Apresentação</a>
+        <a href="#beta" data-beta>Beta</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>SearchToPlay · open source · sem anúncios · feito para quem tem pouco tempo e muitos jogos.</p>
+      <p>© <span id="year"></span> SearchToPlay · protótipo em validação.</p>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">
+    <span aria-hidden="true">↑</span>
+  </button>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
